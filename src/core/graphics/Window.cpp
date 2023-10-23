@@ -3,7 +3,7 @@
  * GRAPHDECO research group, https://team.inria.fr/graphdeco
  * All rights reserved.
  *
- * This software is free for non-commercial, research and evaluation use 
+ * This software is free for non-commercial, research and evaluation use
  * under the terms of the LICENSE.md file.
  *
  * For inquiries contact sibr@inria.fr and/or George.Drettakis@inria.fr
@@ -60,7 +60,7 @@ namespace sibr
 		const std::string errStr2(str, size);
 
 		SIBR_ERR << "OpenGL: " << errStr << errStr2 << std::endl;
-	
+
 	}
 
 	static void glfwKeyboardCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -84,7 +84,7 @@ namespace sibr
 	{
 		void* userptr = glfwGetWindowUserPointer(window);
 		Window* win = reinterpret_cast<Window*>(userptr);
-		
+
 		// TT : should be the right thing to do, but might break some old stuff
 		win->viewport(Viewport(0.f, 0.f, (float)(w), (float)(h)));
 	}
@@ -97,7 +97,7 @@ namespace sibr
 		} else {
 			sibr::Input::global() = sibr::Input();
 		}
-		
+
 	}
 
 	static void glfwMouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
@@ -115,7 +115,7 @@ namespace sibr
 				sibr::Input::global().mouseButton().release((sibr::Mouse::Code)button);
 			}
 		}
-		
+
 		ImGui_ImplGlfw_MouseButtonCallback(window, button, action, mods);
 	}
 
@@ -164,10 +164,10 @@ namespace sibr
 		}
 	}
 
-	Window::Window(uint w, uint h, const std::string& title, const WindowArgs & args, const std::string& defaultSettingsFilename) 
-		: _hiddenInit(args), _useGUI(!args.no_gui && !args.offscreen), _shouldClose(false) 
+	Window::Window(uint w, uint h, const std::string& title, const WindowArgs & args, const std::string& defaultSettingsFilename)
+		: _hiddenInit(args), _useGUI(!args.no_gui && !args.offscreen), _shouldClose(false)
 	{
-		
+
 		setup(w, h, title, args, defaultSettingsFilename);
 
 		if (!(args.fullscreen)) {
@@ -190,7 +190,7 @@ namespace sibr
 		else {
 			winSize = desktopSize();
 		}
-		
+
 		// Here autoInitializer is already initialized, thus glfwInit() has been called
 		setup(winSize.x() - 2*margins.x(), winSize.y() - 2*margins.y(), title, args, defaultSettingsFilename);
 
@@ -212,7 +212,7 @@ namespace sibr
 		if (_useGUI)
 			ImGui_ImplGlfwGL3_NewFrame();
 	}
-	
+
 	void Window::resetSettingsToDefault() {
 		std::string iniFilename = ImGui::GetIO().IniFilename;
 		if(iniFilename != "" && fileExists(iniFilename)) {
@@ -246,7 +246,7 @@ namespace sibr
 	void Window::loadSettings() {
 		// Load defaults from core
 		LoadIniSettingsFromDisk(std::string(getResourcesDirectory() + "/core/" + _defaultImguiSettingsFilename).c_str());
-		
+
 		// Load defaults from Window constructor
 		if(fileExists(_windowImguiSettingsFilename))
 			LoadIniSettingsFromDisk(_windowImguiSettingsFilename.c_str());
@@ -261,7 +261,7 @@ namespace sibr
 
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 #ifdef GLEW_EGL
 		glfwWindowHint(GLFW_CONTEXT_CREATION_API, (args.offscreen) ?
@@ -286,7 +286,7 @@ namespace sibr
 			glfwCreateWindow(
 				width, height, title.c_str(),
 				(args.fullscreen && !args.offscreen) ? glfwGetPrimaryMonitor() : NULL
-				, NULL ), 
+				, NULL ),
 			glfwDestroyWindow
 		);
 
@@ -295,7 +295,7 @@ namespace sibr
 
 		makeContextCurrent();
 
-		
+
 
 		//SR, TT fix for image size non divisible by 4
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -370,7 +370,7 @@ namespace sibr
 			glfwGetMonitorPhysicalSize(glfwGetPrimaryMonitor(), &widthmm, &heightmm);
 			const float defaultDPI = 96.0f;
 			sibr::Vector2i dsize = desktopSize();
-			
+
 			_scaling = sibr::clamp(std::round(dsize.x() / (widthmm / 25.4f) / defaultDPI), 1.0f, 2.0f);
 
 			if (_useGUI && args.hdpi) {

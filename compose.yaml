@@ -4,15 +4,7 @@ services:
     volumes:
       - /etc/sudoers.d:/etc/sudoers.d:ro
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
     network_mode: "host"
     environment:
-      - DISPLAY=172.26.192.1:1.0
-    # command: ./install/bin/SIBR_gaussianViewer_app -m ./output/880b128b-d
-    command: glxinfo | grep "OpenGL version"
+      - DISPLAY=192.168.1.117:0.0
+    command: /usr/local/bin/entrypoint.sh
